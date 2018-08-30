@@ -1,7 +1,8 @@
 @extends('layouts.master')
 @section('content')
-<div class="container py-5">
+<div class="container py-5 my-5">
     <h1 class="text-center">Shopping Cart</h1>
+    @if(Session::has('cart'))
     <table class="table table-striped my-5">
         <thead>
             <tr>
@@ -14,53 +15,38 @@
             </tr>
         </thead>
         <tbody>
+            @foreach($products as $product)
             <tr>
-                <th scope="row">Wineproduct 1</th>
-                <td>$20.99</td>
+                <th scope="row">{{ $product['item']->name }}</th>
+                <td>${{ $product['item']->price }}</td>
                 <td>
                     <div class="product-img">
-                        <img src="img.png" alt="" class="h-10">
+                        <img src="{{ URL::to('/') }}/storage//{{ $product['item']->image }}" alt="" class="cart-image">
                     </div>
                 </td>
-                <td><input type="text"></td>
-                <td>750ml</td>
+                <td><input class="item-quantity text-center" type="text" value="{{ $product['qty'] }}" name="itemQuantity"></td>
+                <td>{{ $product['item']->size }}</td>
                 <td>
-                    <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                    <a href="{{ route('cart.removeItem', ['id' => $product['item']->id]) }}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>
-            <tr>
-                <th scope="row">Wineproduct 1</th>
-                <td>$20.99</td>
-                <td>
-                    <div class="product-img">
-                        <img src="img.png" alt="" class="h-10">
-                    </div>
-                </td>
-                <td>1</td>
-                <td>750ml</td>
-                <td>
-                    <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">Wineproduct 1</th>
-                <td>$20.99</td>
-                <td>
-                    <div class="product-img">
-                        <img src="img.png" alt="" class="h-10">
-                    </div>
-                </td>
-                <td>1</td>
-                <td>750ml</td>
-                <td>
-                    <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                </td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
-    <div class="to-checkout text-right">
-        <button class="btn btn-danger">Empty shopping cart</button>
-        <button class="btn btn-success">Proceed to checkout</button>
+    <hr>
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="total-price">
+            <h5>Cart total: {{ $totalPrice }}</h5>
+        </div>
+        <div class="to-checkout">
+            <a href="{{ route('cart.empty') }}" class="btn btn-danger">Empty shopping cart</a>
+            <a href="{{ route('checkout') }}" class="btn btn-success">Proceed to checkout</a>
+        </div>
     </div>
+    @else
+    <div class="alert alert-warning my-5 py-5" role="alert">
+        <h5>Your shopping cart is empty!</h5>
+    </div>
+    @endif
 </div>
 @endsection

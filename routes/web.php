@@ -21,6 +21,11 @@ Route::get('/cart', [
     'as' => 'cart'
 ]);
 
+Route::get('/remove-item-cart/{id}', [
+    'uses' => 'HomeController@getRemoveItem',
+    'as' => 'cart.removeItem'
+]);
+
 Route::get('/checkout', [
     'uses' => 'HomeController@getCheckout',
     'as' => 'checkout'
@@ -46,9 +51,24 @@ Route::get('/beers', [
     'as' => 'beers'
 ]);
 
-Route::get('/product', [
+Route::get('/product/{id}', [
     'uses' => 'HomeController@getProduct',
     'as' => 'product'
+]);
+// ()
+Route::get('/add-to-cart/{id}', [
+    'uses' => 'HomeController@getAddToCart',
+    'as' => 'addToCart'
+]);
+
+Route::get('/empty-cart', [
+    'uses' => 'HomeController@emptyCart',
+    'as' => 'cart.empty'
+]);
+
+Route::post('/filter', [
+    'uses' => 'HomeController@postFilter',
+    'as' => 'filter'
 ]);
 
 Route::group(['prefix' => 'admin'], function () {

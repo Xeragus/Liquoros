@@ -20,7 +20,12 @@
                     <a href="#" class="nav-link"><i class="fas fa-search fa-lg"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link"><i class="fas fa-shopping-cart fa-lg"></i></a>
+                    <a href="{{ route('cart') }}" class="nav-link">
+                        <i class="fas fa-shopping-cart fa-lg"></i>
+                        <span class="badge badge-pill badge-success">
+                            {{ Session::has('cart') ? Session::get('cart')->cartTotalQuantity : 0 }}
+                        </span>
+                    </a>
                 </li>
             </ul>
         </div>
